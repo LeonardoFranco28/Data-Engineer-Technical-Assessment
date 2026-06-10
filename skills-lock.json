@@ -13,6 +13,12 @@
       "skillPath": "engineering-team/skills/senior-data-engineer/SKILL.md",
       "computedHash": "f5f6d4ffc53d96c6ebe871b71518743e2a4284a0ead3a7473c341bd88ca3fa54"
     },
+    "spark-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spark-engineer/SKILL.md",
+      "computedHash": "4c66f4104d2780f8075ca8e38084d009dfe7d2f8c594424f570611e50d4943b6"
+    },
     "spark-optimization": {
       "source": "wshobson/agents",
       "sourceType": "github",
