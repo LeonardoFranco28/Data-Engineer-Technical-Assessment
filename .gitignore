@@ -1,0 +1,2 @@
+venv
+etl/spark_job.py
