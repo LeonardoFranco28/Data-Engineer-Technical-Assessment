@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "data-engineer": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "skillPath": "skills/data-engineer/SKILL.md",
+      "computedHash": "0cbff8cab74971202adee0bd3c4f62ab79c3a25e7ab05cc19564185fa0baa2bd"
+    },
+    "senior-data-engineer": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "skillPath": "engineering-team/skills/senior-data-engineer/SKILL.md",
+      "computedHash": "f5f6d4ffc53d96c6ebe871b71518743e2a4284a0ead3a7473c341bd88ca3fa54"
+    },
+    "spark-optimization": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/data-engineering/skills/spark-optimization/SKILL.md",
+      "computedHash": "7c8af8c1dc358b3e3ab73fd43dda86971def9cceee07be0965c8114641cb96bb"
+    }
+  }
+}
