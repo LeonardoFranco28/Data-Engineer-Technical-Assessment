@@ -1,2 +1,4 @@
 venv
-etl/spark_job.py
+output/bi/*
+output/ds/*
+output/*
