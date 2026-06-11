@@ -2,7 +2,7 @@
 
 **Candidato:** Leonardo Franco
 **Email:** leonardofrancoch28@gmail.com
-**Fecha de entrega:** 2026-06-18
+**Fecha de entrega:** 2026-06-11
 
 ---
 
