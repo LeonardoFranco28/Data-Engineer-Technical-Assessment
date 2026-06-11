@@ -2,4 +2,4 @@ venv
 output/bi/*
 output/ds/*
 output/*
-notebook/data/*
+notebook/data/processed/datalake.db
