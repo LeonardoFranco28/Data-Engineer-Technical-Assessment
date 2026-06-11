@@ -2,3 +2,4 @@ venv
 output/bi/*
 output/ds/*
 output/*
+notebook/data/*
