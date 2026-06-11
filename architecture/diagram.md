@@ -1,5 +1,89 @@
 # Architecture Diagram — Telecom Proximity Analytics
 
+## Mermaid Overview
+
+```mermaid
+flowchart TD
+    subgraph SOURCES["Data Sources (Daily)"]
+        GEO["Geo Table\n(Parquet)"]
+        LABELS["Labels Table\n(Parquet)"]
+        FUTURE["Future Sources"]
+    end
+
+    subgraph INGEST["Ingestion Layer"]
+        CRAWLER["AWS Glue Crawler\nauto-discover schemas"]
+    end
+
+    subgraph RAW["Raw Layer — S3"]
+        RAW_S3["s3://telecom-raw/\ngeo/ · labels/\ndate=YYYY-MM-DD"]
+    end
+
+    subgraph ORCH["Orchestration — AWS Step Functions"]
+        SF_START(["Start"])
+        SF_PROF["Profiling\nLambda"]
+        SF_ETL["ETL\nAWS Glue"]
+        SF_DQ["DQ Check\nLambda"]
+        SF_OUT["Write Output"]
+        SF_SNS["SNS Alert"]
+    end
+
+    subgraph TRANSFORM["Transformation — AWS Glue PySpark"]
+        T1["1. Data Profiling"]
+        T2["2. Deduplication"]
+        T3["3. Join geo + labels"]
+        T4["4. Spatial Optimization\ngeohashing / grid-cell"]
+        T5["5. Distance Calc\n50m radius pairs"]
+        T6["6. Output Schema\nDS wide table · BI summary"]
+    end
+
+    subgraph STAGING["Staging Layer — S3"]
+        STG["s3://telecom-staging/\ndate=YYYY-MM-DD\nParquet cleaned"]
+    end
+
+    subgraph ANALYTICS["Analytics Layer — S3"]
+        ANA["s3://telecom-analytics/\ndate= · comuna=\nDelta Lake features"]
+    end
+
+    subgraph CURATED["Curated Layer — S3"]
+        CUR1["proximity_summary/\ncomunal=  event_type=\nDelta Lake BI-ready"]
+        CUR2["commune_metrics/\nDelta Lake aggregated"]
+    end
+
+    subgraph DS_ACCESS["DS Access"]
+        SM["SageMaker Studio\nJupyterLab · PySpark\nDirect S3 read"]
+    end
+
+    subgraph BI_ACCESS["BI Access"]
+        ATHENA["Amazon Athena\nServerless SQL"]
+        QS["Amazon QuickSight\nBI Dashboards"]
+    end
+
+    subgraph MONITOR["Monitoring & Alerting"]
+        CW["CloudWatch\nAlarms"]
+        SNS["AWS SNS\nTopics"]
+        NOTIF["Slack / Email"]
+    end
+
+    GEO & LABELS & FUTURE --> CRAWLER
+    CRAWLER --> RAW_S3
+    RAW_S3 --> SF_START
+    SF_START --> SF_PROF --> SF_ETL --> SF_DQ
+    SF_DQ -->|success| SF_OUT
+    SF_DQ -->|failure| SF_SNS
+    SF_ETL --> T1 --> T2 --> T3 --> T4 --> T5 --> T6
+    T6 --> STG
+    T6 --> ANA
+    STG --> CUR1 & CUR2
+    ANA --> SM
+    CUR1 & CUR2 --> ATHENA --> QS
+    CW --> SNS --> NOTIF
+    SF_SNS --> NOTIF
+```
+
+---
+
+## ASCII Detail
+
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                            DATA SOURCES (Daily)                                 │
